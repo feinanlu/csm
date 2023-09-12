@@ -1,0 +1,24 @@
+Package: clincsmr
+Title: Perform Centralized Statistical Monitoring for Clinical Trials
+Version: 0.0.1
+Authors@R: 
+    person("Feinan", "Lu", email="fnlu@overlandpharma.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-8963-5827"))
+Description: A set of functions to perform centralized statistical monitoring 
+    (CSM). You provide the data in format described in the help document, tell
+    'clincsmr' what method to be applied, it will provide you with desired 
+    tables and figures.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
+Imports: ggplot2, stats, gplots, knitr, rmarkdown,valtools
+Suggests: 
+    testthat,
+    kableExtra,
+    magrittr,
+    devtools
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

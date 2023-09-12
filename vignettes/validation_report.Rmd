@@ -1,0 +1,161 @@
+---
+title: "Validation Report for Centralized Statistical Monitoring R Package: clincsmr"
+author: "Feinan Lu"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: '2'
+    df_print: paged
+  pdf_document:
+    toc: yes
+    fig_crop: no
+    toc_depth: 2
+    number_sections: yes
+vignette: |
+  %\VignetteIndexEntry{Validation Report} \usepackage[utf8]{inputenc} %\VignetteEngine{knitr::rmarkdown_notangle}
+header-includes:
+- \usepackage{array}
+- \usepackage{float}
+- \usepackage{multirow}
+- \usepackage{longtable}
+- \usepackage{booktabs}
+---
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+
+```
+
+```{r, setup, echo=FALSE,warning=FALSE}
+suppressPackageStartupMessages({
+  library(valtools)
+  library(knitr)
+  library(kableExtra)
+  library(magrittr)
+  library(devtools)
+})
+
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = TRUE,
+  echo = FALSE,
+  results = "asis",
+  message = FALSE,
+  tidy = FALSE
+)
+
+options(
+  knitr.kable.NA = '',
+  knitr.duplicate.label = "allow"
+)
+
+#Note: 1. remove to desktop; 2. delete all unnecessary files under R/#
+```
+
+```{r shared-obj}
+all_sig <- vt_scrape_sig_table() 
+```
+
+\newpage
+
+# 1 Approval
+
+## 1.1 Signatures
+
+**AUTHOR** My signature designates authorship of this document.
+
+```{r val-lead-sig-block}
+all_sig[grepl("validation lead",all_sig$role, ignore.case = TRUE),] %>%
+  set_rownames(seq_len(nrow(.))) %>%
+  vt_kable_sig_table()
+```
+
+**APPROVAL** I have reviewed this document and approve its content.
+
+```{r sig-block}
+
+all_sig[!grepl("validation lead",all_sig$role, ignore.case = TRUE),] %>%
+  set_rownames(seq_len(nrow(.))) %>% 
+  vt_kable_sig_table()
+
+```
+
+The effective date of this document is the last date of signature.
+
+\newpage
+
+# 2 Release details
+
+## 2.1 Package Information
+
+### 2.1.1 Change Log
+
+```{r change-log-table}
+vt_scrape_change_log() %>% 
+  vt_kable_change_log()
+```
+
+### 2.1.2 Validation Environment
+
+```{r env-table}
+vt_scrape_val_env() %>% 
+  vt_kable_val_env()
+```
+
+## 2.2 Authors
+
+### 2.2.1 Requirements
+
+```{r req-authors}
+vt_scrape_requirement_editors() %>% 
+  vt_kable_requirement_editors()
+```
+
+### 2.2.2 Functions
+
+```{r func-authors}
+vt_scrape_function_editors(tags = c("editor", "editDate")) %>%
+ vt_kable_function_editors()
+
+```
+
+### 2.2.3 Test Case Authors
+
+```{r test-case-authors}
+vt_scrape_test_case_editors() %>%
+ vt_kable_test_case_editors()
+```
+
+### 2.2.4 Test Code Authors
+
+```{r test-code-authors}
+vt_scrape_test_code_editors() %>%
+ vt_kable_test_code_editors()
+```
+
+## 2.3 Traceability
+
+```{r traceability}
+vt_scrape_coverage_matrix() %>% 
+ vt_kable_coverage_matrix()
+```
+
+\clearpage
+
+# 3 Risk Assessment
+
+```{r risk}
+vt_scrape_risk_assessment() %>% 
+  vt_kable_risk_assessment()
+```
+
+\newpage
+
+# 4 Validation
+
+```{r child-files-evaluation, warning=FALSE}
+child_files <- vt_get_child_files()
+vt_file(vt_path(child_files),dynamic_referencing = FALSE)
+```

@@ -1,0 +1,19 @@
+package: clincsmr
+working_dir: vignettes
+output_dir: inst
+report_rmd_name: validation.Rmd
+report_naming_format: Val_Rpt_{package}_v{version}_{date}
+usernames:
+  fnlu:
+    name: Feinan Lu
+    title: Statistician
+    role: Validation Lead
+  user_b:
+    name: Val A XXX
+    title: Programmer II
+    role: tester
+validation_files:
+- Requirement_001.md
+- Test_case_001.md
+- Test_code_001.R
+- Requirement_002.md

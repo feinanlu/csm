@@ -1,0 +1,92 @@
+---
+title: "clincsmr validation guide"
+output:
+  pdf_document: default
+  html_document: default
+date: 2022-11-28
+---
+
+```{r setup, include=FALSE,eval = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Install the following packages
+
+To install rmarkdown only for the first time:
+
+```{r,eval = FALSE}
+
+install.packages("rmarkdown")
+
+```
+
+To install packages needed for package development and validation only for the first time:
+
+```{r install, warning=FALSE,eval = FALSE}
+
+install.packages(c( "roxygen2", "testthat", "knitr"))
+devtools::install_github("r-lib/devtools")
+devtools::install_github("r-lib/usethis")
+remotes::install_github("phuse-org/valtools")
+```
+
+To load the packages every time when R is restarted:
+
+```{r library,eval = FALSE}
+library(valtools)
+library(devtools)
+library(usethis)
+
+#to load the clincsmr package#
+devtools::load_all()
+```
+
+## 2. Folder Structure
+
+All validation files, except data, are located in the `vignettes/` folder. Recommend conduct the validation project within the clincsmr.Rproj, but avoid opening any files outside the validation work while inside the project.
+
+1.  **Requirements** document the goals of the package - what it does to solve whatever problem or task - and should be documented before any code is written, known as specifications. Requirements are recorded within the `vignettes/validation/requirements` folder. An individual requirement file is created for each function to be validated. Type '?' followed by function name, eg. '?cat_check' in the console to see the detail for each function.
+
+2.  **Test cases** are to make sure that the requirements have been met. Test cases are located in the `vignettes/validation/test_cases` folder.
+
+3.  **Test code** is the implementation of the test cases as code. The goal is that the code is completely reproducible and able to be run without human interaction. Additionally, test code is written by a third party - someone that was not involved with writing the actual code or the test case. This helps ensure the integrity of the testing as well as providing valuable review of the documentation of the test cases and package code.Test cases are located in the `vignettes/validation/test_code` folder.
+
+4.  **Data** to be used in testing is located in the `R/` folder with name '*sysdata.rda'.* [Load the data to the environment by clicking the .rda file though the files panel before writing validation test codes.]{.underline} Data name for each validation case is indicated in the test code.
+
+5.  **Validation Report** is a RMD. file pre-populated with code to scrape all the pieces of information that were generated in the prior steps to create the final report when being knit, thanks to {valtools}. The report RMD. file is located in `vignettes/` folder.
+
+## 3. Process and timeline
+
+-   Till 2022/XX/XX: Review Requirements and Test cases
+
+    -   Feel free to edit the Requirements and Test Cases. Please log the editor's name and edit date once changes are made.
+
+    -   Matt:1, 2, 3, 5, 9
+
+        Lei: 4, 6, 7, 8
+
+-   Till 2023/Q2: 1st round validation conduct
+
+    -   Create and conduct the validation by generating test code files
+
+    -   To discuss: how to validate tables and figures?
+
+-   Till 2023/Q2+1m: Address any failed cases by updating the functions
+
+-   Till 2023/Q3: Run the final validation report, complete validation
+
+## 4. Validation team role and responsibility
+
+Use the code below to add a new member to the validation team. The members are automatically recorded to a file located at: `vignettes/validation` folder named *validation.yml*
+
+```{r, eval = FALSE}
+
+## to add a new member
+
+valtools::vt_add_user_to_config(
+  username = "user_b",
+  name = "Val A XXX",
+  title = "Programmer II",
+  role = "tester"
+)
+```
